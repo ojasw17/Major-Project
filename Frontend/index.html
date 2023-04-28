@@ -1,0 +1,1197 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="node_modules/myscript/dist/myscript.min.css" />
+    <script src="node_modules/myscript/dist/myscript.min.js"></script>
+    <script src="https://code.jquery.com/pep/0.4.3/pep.js"></script>
+    <script src="node_modules/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.0.272/jspdf.debug.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <style>
+      #editor {
+        width: 1000px;
+        height: 400px;
+      }
+      .dropbtn {
+        background-color: #3498db;
+        color: white;
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+      }
+
+      .dropbtn:hover,
+      .dropbtn:focus {
+        background-color: #2980b9;
+      }
+
+      .dropdown {
+        position: relative;
+        display: inline-block;
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f1f1f1;
+        min-width: 160px;
+        overflow: auto;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+      }
+
+      .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+      }
+
+      .dropdown a:hover {
+        background-color: #ddd;
+      }
+
+      .show {
+        display: block;
+      }
+
+      #wordsDropDown1 {
+        width: 100px;
+        height: 30px;
+      }
+
+      #wordsDropDown2 {
+        width: 100px;
+        height: 30px;
+        margin-left: 317px;
+      }
+
+      #wordsDropDown3 {
+        width: 100px;
+        height: 30px;
+        margin-left: 317px;
+      }
+
+      #submit1 {
+        width: 100px;
+        height: 30px;
+        background-color: #48abe0;
+        color: white;
+        border: none;
+        padding: 5px;
+        font-size: 20px;
+        box-shadow: 0 2px 4px darkslategray;
+      }
+
+      #submit2 {
+        width: 100px;
+        height: 30px;
+        background-color: #48abe0;
+        color: white;
+        border: none;
+        padding: 5px;
+        font-size: 20px;
+        box-shadow: 0 2px 4px darkslategray;
+        margin-left: 317px;
+      }
+
+      #submit3 {
+        width: 100px;
+        height: 30px;
+        background-color: #48abe0;
+        color: white;
+        border: none;
+        padding: 5px;
+        font-size: 20px;
+        box-shadow: 0 2px 4px darkslategray;
+        margin-left: 317px;
+      }
+
+      .card {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        max-width: 300px;
+        margin: auto;
+        text-align: center;
+      }
+
+      .title {
+        color: grey;
+        font-size: 18px;
+      }
+
+      .profileButton {
+        display: inline-block;
+        color: white;
+        background-color: #48abe0;
+        text-align: center;
+        cursor: pointer;
+        border-color: #48abe0;
+      }
+
+      a {
+        text-decoration: none;
+        font-size: 20px;
+        color: black;
+      }
+
+      button:hover,
+      a:hover {
+        opacity: 0.7;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="display: flex">
+      <div class="card">
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/4497/4497898.png"
+          alt="John"
+          style="height: 150px; width: 200px"
+        />
+        <h2>Dr. John Doe</h2>
+        <p class="title">Dental Surgeon</p>
+        <p>Macy General Hospital</p>
+        <a href="#"><i class="fa fa-dribbble"></i></a>
+        <a href="#"><i class="fa fa-twitter"></i></a>
+        <a href="#"><i class="fa fa-linkedin"></i></a>
+        <a href="#"><i class="fa fa-facebook"></i></a>
+      </div>
+      <div id="editor" touch-action="none"></div>
+    </div>
+    <div>
+      <input
+        style="margin-left: 500px; margin-bottom: 10px; width: 190px"
+        id="id5"
+        type="text"
+        placeholder="Name"
+      />
+      <input
+        style="width: 100px"
+        id="id6"
+        type="text"
+        placeholder="Age
+      "
+      />
+      <button
+        class="profileButton"
+        id="id7"
+        type="button"
+        onclick="submitName()"
+      >
+        Enter
+      </button>
+      <button
+        id="id3"
+        type="button"
+        onclick="generateID()"
+        style="margin-left: 500px; margin-bottom: 10px"
+        class="profileButton"
+      >
+        Health Id
+      </button>
+      <input id="id" type="text" width: 100px; />
+      <button class="profileButton" id="id4" type="button" onclick="submitId()">
+        Submit
+      </button>
+      <button class="profileButton" id="id2" type="button" onclick="print()">
+        Print
+      </button>
+    </div>
+    <div style="display: flex">
+      <select id="wordsDropDown1"></select>
+      <select id="wordsDropDown2"></select>
+      <select id="wordsDropDown3"></select>
+    </div>
+    <div style="display: flex">
+      <textarea
+        id="output1"
+        style="
+          width: 1000px;
+          height: 200px;
+          padding: 10px;
+          border: 3.5px dashed rgb(55, 53, 56);
+          background-color: aliceblue;
+        "
+      ></textarea>
+      <textarea
+        id="output2"
+        style="
+          width: 1000px;
+          height: 200px;
+          padding: 10px;
+          border: 3.5px dashed rgb(55, 53, 56);
+          background-color: aliceblue;
+        "
+      ></textarea>
+      <textarea
+        id="output3"
+        style="
+          width: 1000px;
+          height: 200px;
+          padding: 10px;
+          border: 3.5px dashed rgb(55, 53, 56);
+          background-color: aliceblue;
+        "
+      ></textarea>
+    </div>
+    <div style="display: flex">
+      <button id="submit1">Done</button>
+      <button id="submit2">Done</button>
+      <button id="submit3">Done</button>
+    </div>
+    <script>
+      async function submitId() {
+        document.getElementById("id").readOnly = true;
+        document.getElementById("output1").value = "";
+        document.getElementById("output2").value = "";
+        document.getElementById("output3").value = "";
+
+        const healthId = {
+          healthId: document.getElementById("id").value,
+        };
+
+        let medicalTest = "",
+          diagnosis = "",
+          medicine = "",
+          profile = "";
+
+        try {
+          profile = await axios.post(
+            "http://localhost:8800/backend/patient/getProfile",
+            healthId
+          );
+        } catch (err) {
+          console.log(err);
+        }
+
+        document.getElementById("id5").value = profile.data[0].name;
+        document.getElementById("id6").value = profile.data[0].age;
+
+        try {
+          medicalTest = await axios.post(
+            "http://localhost:8800/backend/patient/getMedicalTest",
+            healthId
+          );
+        } catch (err) {
+          console.log(err);
+        }
+
+        try {
+          diagnosis = await axios.post(
+            "http://localhost:8800/backend/patient/getDiagnosis",
+            healthId
+          );
+        } catch (err) {
+          console.log(err);
+        }
+
+        try {
+          medicine = await axios.post(
+            "http://localhost:8800/backend/patient/getMedicine",
+            healthId
+          );
+        } catch (err) {
+          console.log(err);
+        }
+
+        console.log(diagnosis);
+        console.log(medicalTest);
+        console.log(medicine);
+        console.log(profile);
+
+        for (let i = 0; i < diagnosis.data.length; i++) {
+          document.getElementById("output1").value +=
+            diagnosis.data[i].createdAt;
+          document.getElementById("output1").value += "\n";
+          document.getElementById("output1").value +=
+            diagnosis.data[i].diagnosis;
+        }
+
+        for (let i = 0; i < medicalTest.data.length; i++) {
+          document.getElementById("output2").value +=
+            medicalTest.data[i].createdAt;
+          document.getElementById("output2").value += "\n";
+          document.getElementById("output2").value +=
+            medicalTest.data[i].medicalTest;
+        }
+
+        for (let i = 0; i < medicine.data.length; i++) {
+          document.getElementById("output3").value +=
+            medicine.data[i].createdAt;
+          document.getElementById("output3").value += "\n";
+          document.getElementById("output3").value += medicine.data[i].medicine;
+        }
+      }
+      async function submitName() {
+        const patientProfile = {
+          healthId: document.getElementById("id").value,
+          name: document.getElementById("id5").value,
+          age: document.getElementById("id6").value,
+        };
+        let profile = "";
+
+        try {
+          profile = await axios.post(
+            "http://localhost:8800/backend/patient/profile",
+            patientProfile
+          );
+        } catch (err) {
+          console.log(err);
+        }
+      }
+      function generateID() {
+        var id = Math.random().toString(36).substring(2);
+        const txt = id;
+        document.getElementById("id").value = txt;
+        document.getElementById("id").readOnly = false;
+      }
+
+      function print() {
+        var pdf = new jsPDF({
+          orientation: "p",
+          unit: "mm",
+          format: "a5",
+          putOnlyUsedFonts: true,
+        });
+        pdf.text(
+          "Patient Health Id:" + document.getElementById("id").value,
+          20,
+          20
+        );
+        pdf.text(
+          "Name: " +
+            document.getElementById("id5").value +
+            "\nAge: " +
+            document.getElementById("id6").value +
+            "\n\n\nDiagnosis\n" +
+            document.getElementById("output1").value +
+            "\n\nMedical Tests\n" +
+            document.getElementById("output2").value +
+            "\n\nMedicines\n" +
+            document.getElementById("output3").value,
+          20,
+          30
+        );
+
+        pdf.save(
+          "Medical_Report_" + document.getElementById("id").value + ".pdf"
+        );
+      }
+
+      const editorElement = document.getElementById("editor");
+      var id = Math.random().toString(36).substring(2);
+      const txt = id;
+      document.getElementById("id").value = txt;
+      const disease = [
+        "Acute Flaccid Myelitis (AFM)",
+        "Adenovirus",
+        "AIDS (Acquired Immune Deficiency Syndrome)",
+        "Anthrax",
+        "Arboviral Infections",
+        "Botulism",
+        "Blue-Green Algae",
+        "Brucellosis",
+        "Campylobacteriosis",
+        "Cat Scratch Disease",
+        "Chagas Disease (American trypanosomiasis)",
+        "Chickenpox (Varicella and Shingles)",
+        "Chikungunya",
+        "Chlamydia",
+        "Cholera",
+        "Congenital Rubella Syndrome",
+        "Coronavirus Disease 2019 (COVID-19)",
+        "Creutzfeldt-Jakob Disease",
+        "Cryptosporidiosis",
+        "Cyclosporiasis",
+        "Cytomegalovirus",
+        "Dengue Fever",
+        "Diphtheria",
+        "E. coli",
+        "Ebola Virus Disease",
+        "Ehrlichiosis",
+        "Enteroviruses",
+        "Fifth Disease",
+        "Giardiasis",
+        "Gonorrhea",
+        "Haemophilus Influenzae Invasive Disease (Sterile Site)",
+        "Hand, Foot, and Mouth Disease",
+        "Hand Hygiene",
+        "Hansen's Disease",
+        "Hantavirus",
+        "Head Lice",
+        "Heartland Virus",
+        "Hemolytic Uremic Syndrome",
+        "Hepatitis A",
+        "HIV infection (Human Immunodeficeincy virus)",
+        "Influenza",
+        "Legionellosis",
+        "Leprosy (Hansen's Disease)",
+        "Leptospirosis",
+        "Lice",
+        "Listeriosis",
+        "Lyme Disease",
+        "Malaria",
+        "Measles (Rubeola)",
+        "Meningitis",
+        "Meningococcal Disease",
+        "Molluscum Contagiosum",
+        "Monkeypox",
+        "Mononucleosis",
+        "Mumps",
+        "Norovirus",
+        "Pertussis",
+        "Plague",
+        "Polio (polio myelitis)",
+        "Primary Amebic Meningoencephalitis (PAM)",
+        "Psittacosis",
+        "Q Fever",
+        "Rabies",
+        "Respiratory Syncytial Virus (RSV)",
+        "Reye Syndrome",
+        "Ringworm",
+        "Rocky Mountain Spotted Fever",
+        "Rotavirus",
+        "Rubella (German Measles)",
+        "Salmonellosis",
+        "Scabies",
+        "Shiga toxin-producing E. coli (STEC)",
+        "Shigellosis",
+        "Shingles",
+        "Smallpox",
+        "Southern Tick-Associated Rash Illness (STARI)",
+        "Streptococcus, group A, invasive disease",
+        "Streptococcus pneumoniae, invasive disease",
+        "Syphilis",
+        "Tetanus",
+        "Toxoplasmosis",
+        "Trichinellosis",
+        "Tuberculosis",
+        "Tularemia",
+        "Typhoid Fever",
+        "Varicella (Chickenpox and Shingles)",
+        "Vibrio species",
+        "Vibrio cholera",
+        "Vibrio vulnificus",
+        "Vibrio parahaemolyticus",
+        "West Nile Virus",
+        "Yellow Fever",
+        "Zika Virus",
+      ];
+      const medicalTests = [
+        "Acetaminophen Level",
+        "Acid-Fast Bacillus (AFB) Tests",
+        "ADHD Screening",
+        "Adrenocorticotropic Hormone (ACTH)",
+        "Albumin Blood Test",
+        "Alcohol Use Screening Tests",
+        "Aldosterone Test",
+        "Alkaline Phosphatase",
+        "Allergy Blood Test",
+        "Allergy Skin Test",
+        "Alpha Fetoprotein (AFP) Tumor Marker Test",
+        "Alpha-1 Antitrypsin Test",
+        "Alpha-Fetoprotein (AFP) Test",
+        "ALT Blood Test",
+        "Ammonia Levels",
+        "Amniocentesis (amniotic fluid test)",
+        "Amylase Test",
+        "ANA (Antinuclear Antibody) Test",
+        "Anion Gap Blood Test",
+        "Anoscopy",
+        "Anti-Müllerian Hormone Test",
+        "Antibiotic Sensitivity Test",
+        "Antibody Serology Tests",
+        "Antineutrophil Cytoplasmic Antibodies (ANCA) Test",
+        "Appendicitis Tests",
+        "Arterial Blood Gas (ABG) Test",
+        "AST Test",
+        "At-Home Medical Tests",
+        "Autism Spectrum Disorder (ASD) Screening",
+        "Autonomic Testing",
+        "Bacteria Culture Test",
+        "Bacterial Vaginosis Test",
+        "Balance Tests",
+        "Barium Swallow",
+        "Basic Metabolic Panel (BMP)",
+        "BCR ABL Genetic Test",
+        "Beta 2 Microglobulin (B2M) Tumor Marker Test",
+        "Bilirubin Blood Test",
+        "Bilirubin in Urine",
+        "Blood Alcohol Level",
+        "Blood Differential",
+        "Blood Glucose Test",
+        "Blood in Urine",
+        "Blood Smear",
+        "Bone Density Scan",
+        "Bone Marrow Tests",
+        "BRAF Genetic Test",
+        "BRCA Genetic Test",
+        "Breast Biopsy",
+        "Bronchoscopy and Bronchoalveolar Lavage (BAL)",
+        "BUN (Blood Urea Nitrogen)",
+        "Burn Evaluation",
+        "C-Peptide Test",
+        "C-Reactive Protein (CRP) Test",
+        "C. diff Testing",
+        "CA 19-9 Blood Test (Pancreatic Cancer)",
+        "CA-125 Blood Test (Ovarian Cancer)",
+        "Calcitonin Test",
+        "Calcium Blood Test",
+        "Calcium in Urine Test",
+        "Carbon Dioxide (CO2) in Blood",
+        "Catecholamine Tests",
+        "CCP Antibody Test",
+        "CD4 Lymphocyte Count",
+        "CEA Test",
+        "Celiac Disease Screening",
+        "Cerebrospinal Fluid (CSF) Analysis",
+        "Ceruloplasmin Test",
+        "Chickenpox and Shingles Tests",
+        "Chlamydia Test",
+        "Chloride Blood Test",
+        "Cholesterol Levels",
+        "Chorionic Villus Sampling (CVS)",
+        "Chymotrypsin in Stool",
+        "Coagulation Factor Tests",
+        "Cognitive Testing",
+        "Cold Stimulation Test",
+        "Colorectal Cancer Screening Tests",
+        "Colposcopy",
+        "Complement Blood Test",
+        "Complete Blood Count (CBC)",
+        "Comprehensive Metabolic Panel (CMP)",
+        "Concussion Tests",
+        "Cord Blood Testing and Banking",
+        "Cortisol Test",
+        "Creatine Kinase",
+        "Creatinine Test",
+        "Crystals in Urine",
+        "CSF Immunoglobulin G (IgG) Index",
+        "Cytomegalovirus (CMV) Tests",
+        "D-Dimer Test",
+        "Dengue Fever Test",
+        "Dental Exam",
+        "Depression Screening",
+        "Developmental and Behavioral Screening Tests",
+        "DHEA Sulfate Test",
+        "Diabetes Tests",
+        "Diabetic Foot Exam",
+        "Differential Diagnosis",
+        "Doppler Ultrasound",
+        "Down Syndrome Tests",
+        "Drug Testing",
+        "Drug Use Screening Tests",
+        "Dysphagia Tests",
+        "Elastography",
+        "Electrocardiogram",
+        "Electrolyte Panel",
+        "Electromyography (EMG) and Nerve Conduction Studies",
+        "Epithelial Cells in Urine",
+        "Erythrocyte Sedimentation Rate (ESR)",
+        "Esophageal pH Test",
+        "Estrogen Levels Test",
+        "Estrogen Receptor, Progesterone Receptor Tests",
+        "Fall Risk Assessment",
+        "Fasting for a Blood Test",
+        "Fecal Occult Blood Test (FOBT)",
+        "Ferritin Blood Test",
+        "Fetal Alcohol Spectrum Disorders (FASD) Screening",
+        "Flu (Influenza) Test",
+        "Fluoroscopy",
+        "Follicle-Stimulating Hormone (FSH) Levels Test",
+        "Food Allergy Testing",
+        "Free Light Chains",
+        "Fungal Culture Test",
+        "G6PD Test",
+        "Galactosemia Tests",
+        "Gamma-glutamyl Transferase (GGT) Test",
+        "Gastric Emptying Tests",
+        "Glaucoma Tests",
+        "Globulin Test",
+        "Glomerular Filtration Rate (GFR) Test",
+        "Glucagon Blood Test",
+        "Glucose in Urine Test",
+        "Gonorrhea Test",
+        "Gram Stain",
+        "Growth Hormone Tests",
+        "Haptoglobin (HP) Test",
+        "Hearing Tests for Adults",
+        "Hearing Tests for Children",
+        "Heart Disease Risk Assessment",
+        "Heavy Metal Blood Test",
+        "Helicobacter Pylori (H. Pylori) Tests",
+        "Hematocrit Test",
+        "Hemoglobin A1C (HbA1c) Test",
+        "Hemoglobin Electrophoresis",
+        "Hemoglobin Test",
+        "Hepatitis Panel",
+        "HER2 (Breast Cancer) Testing",
+        "Herpes (HSV) Test",
+        "HIV Screening Test",
+        "HIV Viral Load",
+        "Homocysteine Test",
+        "How to Cope with Medical Test Anxiety",
+        "How to Prepare for a Lab Test",
+        "How to Prepare Your Child for a Lab Test",
+        "How to Understand Your Lab Results",
+        "Human Papillomavirus (HPV) Test",
+        "Hysteroscopy",
+        "IGF-1 (Insulin-like Growth Factor 1) Test",
+        "Immunofixation (IFE) Blood Test",
+        "Immunoglobulins Blood Test",
+        "Insulin in Blood",
+        "Intravenous Pyelogram (IVP)",
+        "Iron Tests",
+        "Karyotype Genetic Test",
+        "Ketones in Blood",
+        "Ketones in Urine",
+        "Kidney Stone Analysis",
+        "Lactate Dehydrogenase (LDH) Isoenzymes Test",
+        "Lactate Dehydrogenase (LDH) Test",
+        "Lactic Acid Test",
+        "Lactose Tolerance Tests",
+        "Laparoscopy",
+        "Legionella Tests",
+        "Lipase Tests",
+        "Lipoprotein (a) Blood Test",
+        "Liver Function Tests",
+        "Lung Cancer Tumor Markers",
+        "Lung Function Tests",
+        "Luteinizing Hormone (LH) Levels Test",
+        "Lyme Disease Tests",
+        "Magnesium Blood Test",
+        "Malaria Tests",
+        "MCV (Mean Corpuscular Volume)",
+        "Measles and Mumps Tests",
+        "Measuring Blood Pressure",
+        "Mental Health Screening",
+        "Methylmalonic Acid (MMA) Test",
+        "Microalbumin Creatinine Ratio",
+        "Mononucleosis (Mono) Tests",
+        "MPV Blood Test",
+        "MRSA Tests",
+        "MTHFR Mutation Test",
+        "Mucus in Urine",
+        "Myasthenia Gravis Tests",
+        "Myelography",
+        "Nasal Swab",
+        "Natriuretic Peptide Tests (BNP, NT-proBNP)",
+        "Neurological Exam",
+        "Nitrites in Urine",
+        "Nonstress Test",
+        "Obesity Screening",
+        "Obsessive Compulsive Disorder (OCD) Test",
+        "Opioid Testing",
+        "Osmolality Tests",
+        "Ova and Parasite Test",
+        "Panic Disorder Test",
+        "Pap Smear",
+        "Parainfluenza Tests",
+        "Parathyroid Hormone (PTH) Test",
+        "Partial Thromboplastin Time (PTT) Test",
+        "PCR Tests",
+        "PDL1 (Immunotherapy) Tests",
+        "PET Scan",
+        "Pharmacogenetic Tests",
+        "Phenylketonuria (PKU) Screening",
+        "Phosphate in Blood",
+        "Phosphate in Urine",
+        "Platelet Tests",
+        "Pleural Fluid Analysis",
+        "Porphyrin Tests",
+        "Postpartum Depression Screening",
+        "Potassium Blood Test",
+        "Prealbumin Blood Test",
+        "Pregnancy Test",
+        "Prenatal Cell-Free DNA Screening",
+        "Prenatal Panel",
+        "Procalcitonin Test",
+        "Progesterone Test",
+        "Prolactin Levels",
+        "Prostate-Specific Antigen (PSA) Test",
+        "Protein C and Protein S Tests",
+        "Protein in Urine",
+        "Prothrombin Time Test and INR (PT/INR)",
+        "PTEN Genetic Test",
+        "Pulse Oximetry",
+        "Rapid Tests",
+        "Rash Evaluation",
+        "RDW (Red Cell Distribution Width)",
+        "Red Blood Cell (RBC) Count",
+        "Red Blood Cell (RBC) Indices",
+        "Red Blood Cell Antibody Screen",
+        "Renin Test",
+        "Respiratory Pathogens Panel",
+        "Respiratory Syncytial Virus (RSV) Tests",
+        "Reticulocyte Count",
+        "Rheumatoid Factor (RF) Test",
+        "Salicylates Level",
+        "Semen Analysis",
+        "Sentinel Lymph Node Biopsy",
+        "SHBG Blood Test",
+        "Skin Biopsy",
+        "Skin Cancer Screening",
+        "Sleep Study",
+        "Smooth Muscle Antibody (SMA) Test",
+        "Sodium Blood Test",
+        "Sputum Culture",
+        "STD Tests",
+        "Stool Elastase",
+        "Strep A Test",
+        "Strep B Test",
+        "Stress Tests",
+        "Suicide Risk Screening",
+        "Sweat Test for Cystic Fibrosis",
+        "Synovial Fluid Analysis",
+        "Syphilis Tests",
+        "Testosterone Levels Test",
+        "Therapeutic Drug Monitoring",
+        "Thyroglobulin",
+        "Thyroid Antibodies",
+        "Thyroxine (T4) Test",
+        "Total Protein and Albumin/Globulin (A/G) Ratio",
+        "TP53 Genetic Test",
+        "Trichomoniasis Test",
+        "Tricyclic Antidepressant (TCA) Screen",
+        "Triglycerides Test",
+        "Triiodothyronine (T3) Tests",
+        "Troponin Test",
+        "TSH (Thyroid-stimulating hormone) Test",
+        "Tuberculosis Screening",
+        "Tumor Marker Tests",
+        "Ultrasound",
+        "Uric Acid Test",
+        "Urobilinogen in Urine",
+        "V/Q Scan",
+        "Videonystagmography (VNG)",
+        "Vision Screening",
+        "Vitamin B Test",
+        "Vitamin D Test",
+        "Vitamin E (Tocopherol) Test",
+        "What You Need to Know About Blood Testing",
+        "White Blood Cell (WBC) in Stool",
+        "White Blood Count (WBC)",
+        "Whooping Cough Tests",
+        "Xylose Testing",
+        "Yeast Infection Tests",
+        "Zika Virus Test",
+        "17-Hydroxyprogesterone",
+      ];
+
+      const medicineNames = [
+        "Abacavir",
+        "Abacavir / dolutegravir / lamivudine (Triumeq®)",
+        "Abacavir / lamivudine (Epzicom®)",
+        "Acyclovir",
+        "Alemtuzumab",
+        "Alendronate",
+        "Allopurinol",
+        "Amifostine",
+        "Amikacin",
+        "Aminocaproic Acid",
+        "Amitriptyline",
+        "Amlodipine",
+        "Amoxicillin",
+        "Amoxicillin / clavulanic acid",
+        "Amphotericin B",
+        "Ampicillin",
+        "Anti-Inhibitor Coagulant Complex (FEIBA)",
+        "Anti-thymocyte globulin",
+        "Aprepitant",
+        "Asparaginase",
+        "Atazanavir (Reyataz®)",
+        "Atenolol",
+        "Atovaquone",
+        "Azithromycin",
+        "Baclofen",
+        "Bleomycin",
+        "Bortezomib",
+        "Bosentan",
+        "Busulfan",
+        "Calcium",
+        "Captopril",
+        "Carbamazepine",
+        "Carboplatin",
+        "Carmustine",
+        "Cefaclor",
+        "Cefepime",
+        "Cefixime",
+        "Ceftazidime",
+        "Cefuroxime",
+        "Celecoxib",
+        "Cephalexin",
+        "Cidofovir",
+        "Cisplatin",
+        "Cladribine",
+        "Clarithromycin",
+        "Clindamycin",
+        "Clobazam",
+        "Clofarabine",
+        "Codeine",
+        "Crizanlizumab",
+        "Crizotinib",
+        "Cyclobenzaprine",
+        "Cyclophosphamide",
+        "Cyclosporine",
+        "Cyproheptadine",
+        "Cytarabine",
+        "Dacarbazine",
+        "Dactinomycin",
+        "Dapsone",
+        "Darunavir (Prezista®)",
+        "Dasatinib",
+        "Daunorubicin",
+        "Deferasirox (Exjade®)",
+        "Desmopressin (Stimate®)",
+        "Dexamethasone",
+        "Diclofenac",
+        "Didanosine",
+        "Dinutuximab",
+        "Dobutamine",
+        "Dopamine",
+        "Dornase alfa",
+        "Doxorubicin",
+        "Dronabinol",
+        "Efavirenz",
+        "Efavirenz / emtricitabine / tenofovir (Atripla®)",
+        "Eltrombopag",
+        "Elvitegravir / cobicistat / emtricitabine / tenofovir (Stribild®)",
+        "Elvitegravir / cobicistat / emtricitabine / tenofovir alafenamide (Genvoya®)",
+        "Emicizumab",
+        "Emtricitabine (Emtriva®)",
+        "Emtricitabine / rilpivirine / tenofovir alafenamide (Odefsey®)",
+        "Emtricitabine / tenofovir (Truvada®)",
+        "Emtricitabine / tenofovir alafenamide (Descovy®)",
+        "Enalapril",
+        "Enoxaparin",
+        "Erlotinib",
+        "Erythromycin",
+        "Erythropoietin",
+        "Etonogestrel (Nexplanon®)",
+        "Etoposide",
+        "Etravirine (Intelence®)",
+        "Factor IX complex",
+        "Factor IX concentrate",
+        "Factor VIIa (Recombinant)",
+        "Factor VIII (Human) and von Willebrand Factor",
+        "Factor VIII (Recombinant)",
+        "Famciclovir",
+        "Famotidine",
+        "Fidaxomicin",
+        "Fluconazole",
+        "Fludarabine",
+        "Fluorouracil",
+        "Foscarnet",
+        "Furosemide",
+        "G-CSF (Filgrastim)",
+        "Gabapentin",
+        "Ganciclovir",
+        "Gefitinib",
+        "Gemcitabine",
+        "Gemtuzumab ozogamicin",
+        "GM-CSF (Sargramostim)",
+        "Granisetron",
+        "Heparin Lock Flush for children and young adults",
+        "Heparin Lock Flush for infants",
+        "Hydralazine",
+        "Hydrocodone with acetaminophen",
+        "Hydrocortisone",
+        "Hydromorphone",
+        "Hydroxyurea",
+        "Hydroxyurea for sickle cell disease",
+        "Ifosfamide",
+        "Imatinib",
+        "Imipenem / cilastatin",
+        "Immune globulin",
+        "Interferon alfa-2a and alfa-2b",
+        "Interferon alfa-2b for melanoma",
+        "Interleukin-2 (Aldesleukin)",
+        "Irinotecan",
+        "Isotretinoin",
+        "Itraconazole",
+        "Ketoconazole",
+        "L-glutamine",
+        "Labetalol",
+        "Lamivudine",
+        "Leucovorin with high dose methotrexate (HDMTX)",
+        "Levothyroxine",
+        "Linezolid",
+        "Lomustine",
+        "Lopinavir / Ritonavir (Kaletra®)",
+        "Lorazepam",
+        "Lorlatinib",
+        "Magnesium",
+        "Maraviroc (Selzentry®)",
+        "Mechlorethamine",
+        "Megestrol acetate",
+        "Meloxicam",
+        "Melphalan",
+        "Meperidine",
+        "Mercaptopurine",
+        "Meropenem",
+        "Mesna",
+        "Methadone",
+        "Methotrexate",
+        "Methylphenidate",
+        "Metronidazole",
+        "Micafungin",
+        "Mitotane",
+        "Mitoxantrone",
+        "Modafinil",
+        "Morphine",
+        "Muromonab – CD3",
+        "Mycophenolate mofetil",
+        "Nelarabine",
+        "Nelfinavir",
+        "Neuromuscular blockers",
+        "Nevirapine",
+        "Norepinephrine",
+        "Omeprazole",
+        "Ondansetron",
+        "Oxycodone",
+        "Paclitaxel",
+        "PEGaspargase",
+        "Pegfilgrastim",
+        "Pemetrexed",
+        "Penicillin VK",
+        "Pentamidine (inhaled by mouth)",
+        "Phenobarbital",
+        "Phenytoin",
+        "Phosphorus",
+        "Posaconazole",
+        "Potassium",
+        "Prednisone",
+        "Probenecid",
+        "Procarbazine",
+        "Promethazine",
+        "Promethazine topical gel",
+        "Propoxyphene",
+        "Raltegravir (Isentress®)",
+        "Ranitidine",
+        "Rasburicase",
+        "Regorafenib",
+        "Rilpivirine (Edurant®)",
+        "Rilpivirine / emtricitabine / tenofovir (Complera®)",
+        "Ritonavir",
+        "Rituximab",
+        "Rivaroxaban",
+        "Ruxolitinib",
+        "Sacubitril/valsartan (Entresto®)",
+        "Saquinavir",
+        "Sirolimus",
+        "Sorafenib",
+        "Stavudine",
+        "Sucralfate",
+        "Sugammadex",
+        "Sunitinib",
+        "Tacrolimus",
+        "Temozolomide",
+        "Teniposide",
+        "Tenofovir",
+        "Thioguanine",
+        "Thiotepa",
+        "Tobramycin",
+        "Topotecan",
+        "Tretinoin – applied to the skin",
+        "Tretinoin – by mouth",
+        "Trimethoprim / sulfamethoxazole",
+        "Valproic acid",
+        "Vancomycin",
+        "Vinblastine",
+        "Vincristine",
+        "Voriconazole",
+        "Vorinostat",
+        "Voxelotor",
+        "Warfarin",
+        "Zidovudine",
+        "Zidovudine / Lamivudine (Combivir®)",
+      ];
+
+      MyScript.register(editorElement, {
+        recognitionParams: {
+          type: "TEXT",
+          server: {
+            applicationKey: "d7f17ded-c68a-47d1-82b0-edddafbfa2cf",
+            hmacKey: "59936096-e5c4-4fdb-a890-dadb9947484f",
+          },
+        },
+      });
+
+      var changeBlock = 1;
+
+      editorElement.addEventListener("exported", async (evt) => {
+        var word = evt.detail.exports["text/plain"];
+        var currentText1 = document.getElementById("output1").value;
+        var currentText2 = document.getElementById("output2").value;
+        var currentText3 = document.getElementById("output3").value;
+
+        const wordsDropDown1 = document.getElementById("wordsDropDown1");
+        const wordsDropDown2 = document.getElementById("wordsDropDown2");
+        const wordsDropDow3 = document.getElementById("wordsDropDown3");
+
+        const lastWord = word.split(" ").pop();
+
+        console.log("word " + word);
+        console.log("lastWord " + lastWord);
+
+        if (changeBlock == 1) {
+          let data = [];
+
+          for (let i = 0; i < medicalTests.length; i++) {
+            let wr = lastWord;
+            if (
+              medicalTests[i].charAt(0) ===
+              wr.charAt(wr.length - 1).toUpperCase()
+            )
+              data.push(medicalTests[i]);
+          }
+
+          while (wordsDropDown1.lastChild != null)
+            wordsDropDown1.removeChild(wordsDropDown1.lastChild);
+
+          for (let i = 0; i < data.length; i++) {
+            let option = document.createElement("option");
+            let optionText = document.createTextNode(data[i]);
+            option.setAttribute("value", data[i]);
+            option.appendChild(optionText);
+            wordsDropDown1.appendChild(option);
+          }
+        }
+
+        if (changeBlock == 2) {
+          let data = [];
+
+          for (let i = 0; i < disease.length; i++) {
+            let wr = lastWord;
+            if (disease[i].charAt(0) === wr.charAt(wr.length - 1).toUpperCase())
+              data.push(disease[i]);
+          }
+
+          while (wordsDropDown2.lastChild != null)
+            wordsDropDown2.removeChild(wordsDropDown2.lastChild);
+
+          for (let i = 0; i < data.length; i++) {
+            let option = document.createElement("option");
+            let optionText = document.createTextNode(data[i]);
+            option.setAttribute("value", data[i]);
+            option.appendChild(optionText);
+            wordsDropDown2.appendChild(option);
+          }
+        }
+
+        if (changeBlock == 3) {
+          let data = [];
+
+          for (let i = 0; i < medicineNames.length; i++) {
+            let wr = lastWord;
+            if (
+              medicineNames[i].charAt(0) ===
+              wr.charAt(wr.length - 1).toUpperCase()
+            )
+              data.push(medicineNames[i]);
+          }
+
+          while (wordsDropDown3.lastChild != null)
+            wordsDropDown3.removeChild(wordsDropDown3.lastChild);
+
+          for (let i = 0; i < data.length; i++) {
+            let option = document.createElement("option");
+            let optionText = document.createTextNode(data[i]);
+            option.setAttribute("value", data[i]);
+            option.appendChild(optionText);
+            wordsDropDown3.appendChild(option);
+          }
+        }
+
+        document.getElementById("output1").value = currentText1;
+        document.getElementById("output2").value = currentText2;
+        document.getElementById("output3").value = currentText3;
+
+        wordsDropDown1.addEventListener("change", (e) => {
+          currentText1 += event.target.value;
+          currentText1 += "\n";
+          document.getElementById("output1").value = currentText1;
+        });
+
+        wordsDropDown2.addEventListener("change", (e) => {
+          currentText2 += event.target.value;
+          currentText2 += "\n";
+          document.getElementById("output2").value = currentText2;
+        });
+
+        wordsDropDown3.addEventListener("change", (e) => {
+          currentText3 += event.target.value;
+          currentText3 += "\n";
+          document.getElementById("output3").value = currentText3;
+        });
+
+        submit1.addEventListener("click", async (e) => {
+          e.preventDefault();
+          changeBlock = 2;
+          const medicalTest = {
+            healthId: document.getElementById("id").value,
+            medicalTest: document.getElementById("output1").value,
+          };
+          try {
+            await axios.post(
+              "http://localhost:8800/backend/patient/medicalTest",
+              medicalTest
+            );
+          } catch (err) {
+            console.log(err);
+          }
+          document.getElementById("output1").value = "";
+          currentText1 = "";
+          while (wordsDropDown1.lastChild != null)
+            wordsDropDown1.removeChild(wordsDropDown1.lastChild);
+        });
+
+        submit2.addEventListener("click", async (e) => {
+          e.preventDefault();
+          changeBlock = 3;
+          const diagnosis = {
+            healthId: document.getElementById("id").value,
+            diagnosis: document.getElementById("output2").value,
+          };
+          try {
+            await axios.post(
+              "http://localhost:8800/backend/patient/diagnosis",
+              diagnosis
+            );
+          } catch (err) {
+            console.log(err);
+          }
+          document.getElementById("output2").value = "";
+          currentText2 = "";
+          while (wordsDropDown2.lastChild != null)
+            wordsDropDown2.removeChild(wordsDropDown2.lastChild);
+        });
+
+        submit3.addEventListener("click", async (e) => {
+          e.preventDefault();
+          const medicine = {
+            healthId: document.getElementById("id").value,
+            medicine: document.getElementById("output3").value,
+          };
+          try {
+            await axios.post(
+              "http://localhost:8800/backend/patient/medicine",
+              medicine
+            );
+          } catch (err) {
+            console.log(err);
+          }
+          document.getElementById("output3").value = "";
+          currentText3 = "";
+          while (wordsDropDown3.lastChild != null)
+            wordsDropDown3.removeChild(wordsDropDown3.lastChild);
+        });
+      });
+    </script>
+  </body>
+</html>
